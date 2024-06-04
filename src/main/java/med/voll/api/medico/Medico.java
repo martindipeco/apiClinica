@@ -26,6 +26,7 @@ public class Medico {
     private Especialidad especialidad;
     @Embedded
     private Direccion direccion;
+    private boolean activo;
 
     public Medico (DatosRegistroMedico datosRegistroMedico)
     {
@@ -35,6 +36,27 @@ public class Medico {
         this.direccion = new Direccion(datosRegistroMedico.direccion());
         this.email = datosRegistroMedico.email();
         this.especialidad = datosRegistroMedico.especialidad();
+        this.activo = true;
+    }
 
+    public void actualizarDatos(DatosActualizarMedico datosActualizarMedico)
+    {
+        if (datosActualizarMedico.nombre() != null)
+        {
+            this.nombre = datosActualizarMedico.nombre();
+        }
+        if (datosActualizarMedico.documento() != null)
+        {
+            this.documento = datosActualizarMedico.documento();
+        }
+        if (datosActualizarMedico.direccion() != null)
+        {
+            this.direccion = new Direccion(datosActualizarMedico.direccion());
+        }
+    }
+
+    public void desactivarMedico()
+    {
+        this.activo = false;
     }
 }
