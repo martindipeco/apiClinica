@@ -1,8 +1,8 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.direccion.DatosDireccion;
-import med.voll.api.medico.*;
+import med.voll.api.domain.direccion.DatosDireccion;
+import med.voll.api.domain.medico.*;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/medicos")
@@ -23,7 +22,7 @@ public class MedicoController {
     private MedicoRepository medicoRepository;
     @PostMapping
     public ResponseEntity <DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico,
-                                          UriComponentsBuilder uriComponentsBuilder)
+                                                                 UriComponentsBuilder uriComponentsBuilder)
     {
         //System.out.println("Se recibió el pedido para registrar médico");
         //System.out.println(datosRegistroMedico);
