@@ -46,6 +46,19 @@ public class MedicoController {
                 .map(DatosListadoMedico::new));
     }
 
+    @GetMapping("/{id}")
+    //@Transactional : los gets no necesitan transactional
+    public ResponseEntity<DatosRespuestaMedico> devuelveDatosMedico(@PathVariable Long id)
+    {
+        Medico medico = medicoRepository.getReferenceById(id);
+        var datosMedico = new DatosRespuestaMedico(medico.getId(), medico.getNombre(),
+                medico.getEmail(), medico.getTelefono(), medico.getEspecialidad().toString()
+                , new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito()
+                , medico.getDireccion().getCiudad(), medico.getDireccion().getNumero().toString(),
+                medico.getDireccion().getComplemento()));
+        return ResponseEntity.ok(datosMedico);
+    }
+
     @PutMapping
     @Transactional
     public ResponseEntity actualizarMedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico)
@@ -61,7 +74,7 @@ public class MedicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity eliminarMedico(@PathVariable Long id)
+    public ResponseEntity desactivarMedico(@PathVariable Long id)
     {
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
@@ -76,17 +89,4 @@ public class MedicoController {
 //        Medico medico = medicoRepository.getReferenceById(id);
 //        medicoRepository.delete(medico);
 //    }
-
-    @GetMapping("/{id}")
-    //@Transactional : los gets no necesitan transactional
-    public ResponseEntity<DatosRespuestaMedico> devuelveDatosMedico(@PathVariable Long id)
-    {
-        Medico medico = medicoRepository.getReferenceById(id);
-        var datosMedico = new DatosRespuestaMedico(medico.getId(), medico.getNombre(),
-                medico.getEmail(), medico.getTelefono(), medico.getEspecialidad().toString()
-                , new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito()
-                , medico.getDireccion().getCiudad(), medico.getDireccion().getNumero().toString(),
-                medico.getDireccion().getComplemento()));
-        return ResponseEntity.ok(datosMedico);
-    }
 }
