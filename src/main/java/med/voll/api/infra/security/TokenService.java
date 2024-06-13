@@ -1,8 +1,11 @@
 package med.voll.api.infra.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import med.voll.api.domain.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,26 @@ public class TokenService {
     private Instant generarFechaExpiracion()//hardcodeado a 2 horas
     {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));//averiguar offset especifico por país
+    }
+
+    public String getSubject(String token)
+    {
+        DecodedJWT verifier = null;
+        try
+        {
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            verifier = JWT.require(algorithm).withIssuer("voll med").build().verify(token);
+            verifier.getSubject();
+        }
+        catch (JWTVerificationException exception)
+        {
+            System.out.println(exception.getMessage());
+        }
+        if (verifier.getSubject() == null)
+        {
+            throw new RuntimeException("subject nulo desde getSubject");
+        }
+        return verifier.getSubject();
     }
 
 }
