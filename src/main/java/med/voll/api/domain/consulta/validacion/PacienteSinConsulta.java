@@ -20,7 +20,7 @@ public class PacienteSinConsulta implements ValidadorConsultas{
         var primerHorario = datosAgendarConsulta.fecha().withHour(7);
         var ultimoHorario = datosAgendarConsulta.fecha().withHour(18);
 
-        var pacienteConConsulta = consultaRepository.existsByPacienteIdAndFechaBetwen(
+        var pacienteConConsulta = consultaRepository.existsByPacienteIdAndFechaBetween(
                 datosAgendarConsulta.idPaciente(), primerHorario, ultimoHorario);
 
 //        var pacienteConConsultaMismoDia = pacienteRepository.findAgendadoById(datosAgendarConsulta.idPaciente(),

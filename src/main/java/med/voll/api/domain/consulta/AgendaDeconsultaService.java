@@ -30,9 +30,8 @@ public class AgendaDeconsultaService {
     public void agendar(DatosAgendarConsulta datosAgendarConsulta)
     {
         //validacion de id paciente
-        //TODO: no debería ser alrevés?? .isEmpty en vez de isPresent
         //findByID devuelve un Optional
-        if(pacienteRepository.findById(datosAgendarConsulta.idPaciente()).isPresent())
+        if(pacienteRepository.findById(datosAgendarConsulta.idPaciente()).isEmpty())
         {
             throw new ValidacionDeIntegridad("No se encontró ID de paciente");
         }
@@ -40,8 +39,7 @@ public class AgendaDeconsultaService {
         //validacion de medico.
         //si no se envía medico, elegir de acuerdo a disponibilidad y especialidad
         //existById devuelve un boolean
-        //si no es null y existe, ¿se lanza la excepción???? (TODO: no debería ser alreves??)
-        if(datosAgendarConsulta.idMedico()!=null && medicoRepository.existsById(datosAgendarConsulta.idMedico()))
+        if(datosAgendarConsulta.idMedico()!=null && !medicoRepository.existsById(datosAgendarConsulta.idMedico()))
         {
             throw new ValidacionDeIntegridad("No se encontró ID de médico");
         }
