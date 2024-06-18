@@ -1,5 +1,6 @@
 package med.voll.api.domain.consulta;
 
+import med.voll.api.domain.consulta.validacion.ValidadorCancelacion;
 import med.voll.api.domain.consulta.validacion.ValidadorConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
@@ -9,7 +10,6 @@ import med.voll.api.infra.error.ValidacionDeIntegridad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,7 +25,10 @@ public class AgendaDeconsultaService {
     private ConsultaRepository consultaRepository;
 
     @Autowired
-    List<ValidadorConsultas> validadores;
+    List<ValidadorConsultas> validadorConsultas;
+
+    @Autowired
+    List<ValidadorCancelacion> validadoresCancelacion;
 
     public DatosDetalleConsulta agendar(DatosAgendarConsulta datosAgendarConsulta)
     {
@@ -44,7 +47,7 @@ public class AgendaDeconsultaService {
             throw new ValidacionDeIntegridad("No se encontró ID de médico");
         }
 
-        validadores.forEach(v -> v.validar(datosAgendarConsulta));
+        validadorConsultas.forEach(v -> v.validar(datosAgendarConsulta));
 
 //        var medicoOpcional = medicoRepository.findById(datosAgendarConsulta.idMedico());
 //        Medico medico = null;
@@ -68,9 +71,22 @@ public class AgendaDeconsultaService {
             paciente = pacienteOpcional.get();
         }
 
-        var consulta = new Consulta(null, medico, paciente, datosAgendarConsulta.fecha());
+        var consulta = new Consulta(medico, paciente, datosAgendarConsulta.fecha());
         consultaRepository.save(consulta);
         return new DatosDetalleConsulta(consulta);
+    }
+
+    public void cancelarConsulta(DatosCancelacionConsulta datosCancelacionConsulta)
+    {
+        if(!consultaRepository.existsById(datosCancelacionConsulta.idConsulta()))
+        {
+            throw new ValidacionDeIntegridad("El id ingresado no existe");
+        }
+
+        validadoresCancelacion.forEach(v -> v.validar(datosCancelacionConsulta));
+
+        var consulta = consultaRepository.getReferenceById(datosCancelacionConsulta.idConsulta());
+        consulta.cancelarConsulta(datosCancelacionConsulta.motivo());
     }
 
     private Medico seleccionarMedico(DatosAgendarConsulta datosAgendarConsulta) {
