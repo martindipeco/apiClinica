@@ -23,8 +23,9 @@ public class ConsultaController {
     {
         System.out.println(datosAgendarConsulta);
 
-        agendaDeconsultaService.agendar(datosAgendarConsulta);
+        var consultaAgendada =  agendaDeconsultaService.agendar(datosAgendarConsulta);
 
-        return ResponseEntity.ok(new DatosDetalleConsulta(null, null, null, null));
+        return ResponseEntity.ok(consultaAgendada);
+        //return ResponseEntity.ok(new DatosDetalleConsulta(null, null, null, null));
     }
 }

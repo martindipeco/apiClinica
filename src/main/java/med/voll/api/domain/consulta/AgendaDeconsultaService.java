@@ -27,7 +27,7 @@ public class AgendaDeconsultaService {
     @Autowired
     List<ValidadorConsultas> validadores;
 
-    public void agendar(DatosAgendarConsulta datosAgendarConsulta)
+    public DatosDetalleConsulta agendar(DatosAgendarConsulta datosAgendarConsulta)
     {
         //validacion de id paciente
         //findByID devuelve un Optional
@@ -52,7 +52,14 @@ public class AgendaDeconsultaService {
 //        {
 //            medico = medicoOpcional.get();
 //        }
+
         var medico = seleccionarMedico(datosAgendarConsulta);
+
+        //si medico vuelve null porque no existen medicos disponibles segun especialidad segun horario
+        if(medico==null)
+        {
+            throw new ValidacionDeIntegridad("No hay médicos de esa especialidad disponibles en ese horario");
+        }
 
         var pacienteOpcional = pacienteRepository.findById(datosAgendarConsulta.idPaciente());
         Paciente paciente = null;
@@ -63,6 +70,7 @@ public class AgendaDeconsultaService {
 
         var consulta = new Consulta(null, medico, paciente, datosAgendarConsulta.fecha());
         consultaRepository.save(consulta);
+        return new DatosDetalleConsulta(consulta);
     }
 
     private Medico seleccionarMedico(DatosAgendarConsulta datosAgendarConsulta) {
