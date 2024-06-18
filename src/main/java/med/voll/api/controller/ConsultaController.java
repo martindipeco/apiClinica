@@ -1,9 +1,7 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.domain.consulta.AgendaDeconsultaService;
-import med.voll.api.domain.consulta.DatosAgendarConsulta;
-import med.voll.api.domain.consulta.DatosDetalleConsulta;
+import med.voll.api.domain.consulta.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 @RequestMapping("/consultas")
 public class ConsultaController {
+
+    @Autowired
+    private ConsultaRepository consultaRepository;
 
     @Autowired
     private AgendaDeconsultaService agendaDeconsultaService;
@@ -27,5 +28,17 @@ public class ConsultaController {
 
         return ResponseEntity.ok(consultaAgendada);
         //return ResponseEntity.ok(new DatosDetalleConsulta(null, null, null, null));
+    }
+
+    //DANGER! Borrado físico
+    //TODO: borrado lógico
+    //TODO: migracion de Consulta con agregado de booleano "cancelada" o "activa" (como Medico y Paciente)
+    //TODO: creación de DTO ConsultaCancelada q recibe Consulta + info de motivo
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void eliminarConsulta(@PathVariable Long id)
+    {
+        Consulta consulta = consultaRepository.getReferenceById(id);
+        consultaRepository.delete(consulta);
     }
 }
