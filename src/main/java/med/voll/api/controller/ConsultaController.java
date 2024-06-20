@@ -18,7 +18,7 @@ public class ConsultaController {
     private ConsultaRepository consultaRepository;
 
     @Autowired
-    private AgendaDeconsultaService agendaDeconsultaService;
+    private AgendaDeConsultaService agendaDeconsultaService;
 
     @PostMapping
     @Transactional
