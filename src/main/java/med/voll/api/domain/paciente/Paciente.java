@@ -36,6 +36,14 @@ public class Paciente {
         this.activo = true;
     }
 
+    public Paciente(String nombre, String email, String documento) {
+        this.nombre = nombre;
+        this.email = email;
+        this.documento = documento;
+        this.telefono = "123";
+        this.direccion = new Direccion("test", "test", "test", 1, "test");
+    }
+
     public void actualizarDatos(DatosActualizarPaciente datosActualizarPaciente)
     {
         if (datosActualizarPaciente.nombre() != null)

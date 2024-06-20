@@ -39,6 +39,19 @@ public class Medico {
         this.activo = true;
     }
 
+    public Medico(String nombre, String email, String documento, Especialidad especialidad)
+    {
+        this.nombre = nombre;
+        this.email = email;
+        this.documento = documento;
+        this.especialidad = especialidad;
+        this.telefono = "test";
+        this.direccion = new Direccion("test", "test", "test", 1, "test");
+        this.activo = true;
+    }
+
+
+
     public void actualizarDatos(DatosActualizarMedico datosActualizarMedico)
     {
         if (datosActualizarMedico.nombre() != null)
