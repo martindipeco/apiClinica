@@ -33,7 +33,7 @@ public class Consulta {
 
     private LocalDateTime fecha;
 
-    private String motivoCancelacion;
+    //private String motivoCancelacion;
 
     public Consulta(Medico medico, Paciente paciente, LocalDateTime fecha)
     {
@@ -42,8 +42,8 @@ public class Consulta {
         this.fecha = fecha;
     }
 
-    public void cancelarConsulta(String motivo)
-    {
-        this.motivoCancelacion = motivo;
-    }
+//    public void cancelarConsulta(String motivo)
+//    {
+//        this.motivoCancelacion = motivo;
+//    }
 }

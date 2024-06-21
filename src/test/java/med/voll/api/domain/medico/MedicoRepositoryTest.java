@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -40,6 +39,8 @@ class MedicoRepositoryTest {
         var medico = registrarMedico("Jose", "jos@mail.com", "762036", Especialidad.CARDIOLOLOGIA);
 
         var paciente = registrarPaciente("Lurdes", "lurdes@mail.com", "224367");
+
+        registrarConsulta(medico, paciente, proximoLunes10hs);
 
         //when
         var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOLOGIA, proximoLunes10hs);
@@ -80,6 +81,10 @@ class MedicoRepositoryTest {
 
     private void registrarConsulta(Medico medico, Paciente paciente, LocalDateTime fecha)
     {
-        testEntityManager.persist(new Consulta(null, medico, paciente, fecha, null));
+        testEntityManager.persist(new Consulta(medico, paciente, fecha));
     }
+//    private void registrarConsulta(Medico medico, Paciente paciente, LocalDateTime fecha)
+//    {
+//        testEntityManager.persist(new Consulta(null, medico, paciente, fecha, null));
+//    }
 }

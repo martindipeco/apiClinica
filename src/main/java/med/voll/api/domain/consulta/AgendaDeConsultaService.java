@@ -76,18 +76,18 @@ public class AgendaDeConsultaService {
         return new DatosDetalleConsulta(consulta);
     }
 
-    public void cancelarConsulta(DatosCancelacionConsulta datosCancelacionConsulta)
-    {
-        if(!consultaRepository.existsById(datosCancelacionConsulta.idConsulta()))
-        {
-            throw new ValidacionDeIntegridad("El id ingresado no existe");
-        }
-
-        validadoresCancelacion.forEach(v -> v.validar(datosCancelacionConsulta));
-
-        var consulta = consultaRepository.getReferenceById(datosCancelacionConsulta.idConsulta());
-        consulta.cancelarConsulta(datosCancelacionConsulta.motivo());
-    }
+//    public void cancelarConsulta(DatosCancelacionConsulta datosCancelacionConsulta)
+//    {
+//        if(!consultaRepository.existsById(datosCancelacionConsulta.idConsulta()))
+//        {
+//            throw new ValidacionDeIntegridad("El id ingresado no existe");
+//        }
+//
+//        validadoresCancelacion.forEach(v -> v.validar(datosCancelacionConsulta));
+//
+//        var consulta = consultaRepository.getReferenceById(datosCancelacionConsulta.idConsulta());
+//        consulta.cancelarConsulta(datosCancelacionConsulta.motivo());
+//    }
 
     private Medico seleccionarMedico(DatosAgendarConsulta datosAgendarConsulta) {
         //si el id no es null, devolvemos el medico por id
