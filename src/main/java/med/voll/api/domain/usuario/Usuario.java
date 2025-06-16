@@ -27,6 +27,12 @@ public class Usuario implements UserDetails {
     private String login;
     private String clave;
 
+    // Custom constructor for login and clave
+    public Usuario(String login, String clave) {
+        this.login = login;
+        this.clave = clave;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
